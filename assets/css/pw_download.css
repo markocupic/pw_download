@@ -1,60 +1,54 @@
-.ce_pw_download .pw_form_container
-{
-       padding:20px;
-       position: fixed;
-       background-color:#000000;
-       margin-top:-150px;
-       visibility:hidden;
-       display:none;
+.ce_pw_download .pw_form_container {
+    padding: 20px;
+    position: fixed;
+    background-color: #000000;
+    margin-top: -150px;
+    visibility: hidden;
+    display: none;
 }
-.ce_pw_download  .visible {
-       
-       position: fixed;
-       display: inline !important;
-       visibility: visible;
+.ce_pw_download .visible {
+
+    position: fixed;
+    display: inline !important;
+    visibility: visible;
 }
-.ce_pw_download .submit
-{
-       font-size:12px;
-       display:inline;
-       padding:3px;
+.ce_pw_download .submit {
+    font-size: 12px;
+    display: inline;
+    padding: 3px;
 }
 
-.ce_pw_download .text
-{
-       font-size:14px !important;
-       display:inline;
-       padding:3px;
-       width:150px;
+.ce_pw_download .text {
+    font-size: 14px !important;
+    display: inline;
+    padding: 3px;
+    width: 150px;
 }
 
-.ce_pw_download .submit_container
-{
-       display:inline;
+.ce_pw_download .submit_container {
+    display: inline;
 }
 
-.ce_pw_download h3
-{
-       font-size:12px;
-       color: #fff;
-       margin:10px 0;
+.ce_pw_download h3 {
+    font-size: 12px;
+    color: #fff;
+    margin: 10px 0;
 }
 
-.ce_pw_download .close_button
-{
-       font-size:11px;
-       color: #ffffff;
-       text-decoration:underline;
-       text-align:right;
+.ce_pw_download .close_button {
+    font-size: 11px;
+    color: #ffffff;
+    text-decoration: underline;
+    text-align: right;
+    cursor: pointer;
 }
 
-.ce_pw_download .filename_container p
-{
-       font-size:12px;
-       color: #ccc;
+.ce_pw_download .filename_container p {
+    font-size: 12px;
+    color: #ccc;
 }
 
-.ce_pw_download .password_error{
-       visibility:hidden;
-       display:none;
+.ce_pw_download .password_error {
+    visibility: hidden;
+    display: none;
 }
