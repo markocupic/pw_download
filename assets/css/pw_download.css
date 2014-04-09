@@ -1,41 +1,52 @@
-.ce_pw_download .pw_form_container {
-    padding: 20px;
-    position: fixed;
+.pw_download_popup {
+    padding: 20px 30px 30px 30px;
+    position: absolute;
+    z-index: 999;
     background-color: #000000;
-    margin-top: -150px;
+    width: 400px;
+    height: auto;
+    /*cursor: move;*/
+}
+
+.pw_download_popup_invisible {
     visibility: hidden;
     display: none;
 }
-.ce_pw_download .visible {
 
-    position: fixed;
-    display: inline !important;
+.pw_download_popup_visible {
+    display: block;
     visibility: visible;
 }
-.ce_pw_download .submit {
-    font-size: 12px;
-    display: inline;
-    padding: 3px;
-}
 
-.ce_pw_download .text {
-    font-size: 14px !important;
-    display: inline;
+.pw_download_popup .pw_download_formbody .text {
+    font-size: 14px;
+    display: inline-block;
     padding: 3px;
     width: 150px;
 }
 
-.ce_pw_download .submit_container {
-    display: inline;
+.pw_download_popup .submit_container {
+    display: inline-block;
 }
 
-.ce_pw_download h3 {
+.pw_download_popup .pw_download_formbody .submit {
+    font-size: 12px;
+    padding: 3px;
+}
+
+.pw_download_popup h3 {
     font-size: 12px;
     color: #fff;
     margin: 10px 0;
+    display: inline-block;
 }
 
-.ce_pw_download .close_button {
+.pw_download_popup .close_button {
+    position: absolute;
+    width: auto;
+    height: 20px;
+    top: 10px;
+    right: 10px;
     font-size: 11px;
     color: #ffffff;
     text-decoration: underline;
@@ -43,7 +54,8 @@
     cursor: pointer;
 }
 
-.ce_pw_download .filename_container p {
+.pw_download_popup .filename_container p {
+    display: inline-block;
     font-size: 12px;
     color: #ccc;
 }

@@ -153,7 +153,7 @@ class ContentPasswordDownload extends \ContentElement
               $this->Template->mime = $objFile->mime;
               $this->Template->extension = $objFile->extension;
               $this->Template->path = $objFile->dirname;
-              $this->Template->fileHref = TL_MODE == 'FE' ? 'javascript:fadeInForm(' . $this->id . ')' : 'javascript:void(0)';
+              $this->Template->fileHref = TL_MODE == 'FE' ? 'javascript:fadeInForm(this,' . $this->id . ')' : 'javascript:void(0)';
 
               if ($this->authError === true)
               {
