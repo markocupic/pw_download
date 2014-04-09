@@ -2,7 +2,7 @@
     padding: 20px 30px 30px 30px;
     position: absolute;
     z-index: 999;
-    background-color: #000000;
+    background-color: #292929;
     width: 400px;
     height: auto;
     /*cursor: move;*/
@@ -36,9 +36,10 @@
 
 .pw_download_popup h3 {
     font-size: 12px;
-    color: #fff;
+    color: #ccc;
     margin: 10px 0;
     display: inline-block;
+    line-height:18px;
 }
 
 .pw_download_popup .close_button {
@@ -57,7 +58,7 @@
 .pw_download_popup .filename_container p {
     display: inline-block;
     font-size: 12px;
-    color: #ccc;
+    color: #4774E8;
 }
 
 .ce_pw_download .password_error {

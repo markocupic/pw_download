@@ -8,7 +8,7 @@ window.addEvent('domready', function () {
 
     // store all forms in the body node
     $$('.pw_download_popup').each(function (el) {
-        document.body.adopt(el);
+        document.getElementsByTagName('body')[0].adopt(el);
     });
 
     // alert the error message if the password was wrong
@@ -59,8 +59,8 @@ function fadeInForm(elLink, ceId) {
 
     // fade in
     var fade = (function () {
-        formLayer.fade(0.9)
-    }.delay(600));
+        formLayer.fade('in')
+    }.delay(500)); 
 }
 
 function fadeOutForm() {
