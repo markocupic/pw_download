@@ -25,3 +25,4 @@ $GLOBALS['TL_LANG']['CTE']['pw_download']  = array('Key Protected Download', 'Ge
 $GLOBALS['TL_LANG']['MSC']['closeLayer'] = 'close';
 $GLOBALS['TL_LANG']['MSC']['enterKey'] = 'Please enter the key to download the selected file!';
 $GLOBALS['TL_LANG']['MSC']['wrongPassword'] = 'You have entered a wrong key for %s.';
+$GLOBALS['TL_LANG']['MSC']['rightPassword'] = 'The key is correct. Download will start instantly.';

@@ -1,46 +1,34 @@
 <!-- indexer::stop -->
-<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+<div class="<?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
 
-    <?php if ($this->headline): ?>
-    <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
-    <?php endif; ?>
+<?php if ($this->headline): ?>
+<<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+<?php endif; ?>
 
-    <div class="pw_download_item">
-        <img src="<?php echo $this->icon; ?>" width="18" height="18" alt="<?php echo $this->mime; ?>" class="mime_icon">
+    <img src="<?= $this->icon ?>" width="18" height="18" alt="<?= $this->mime ?>" class="mime_icon">
+    <a href="<?= $this->href ?>" data-id="<?= $this->id ?>" data-auth="<?= $this->auth ?>" title="<?= $this->title ?>">
+        <?= $this->link ?> <span class="size">(<?= $this->filesize ?>)</span>
+    </a>
 
-        <a href="<?php echo $this->fileHref; ?>" title="<?php echo $this->title; ?>">
-        <?php echo $this->link; ?> <span class="size">(<?php echo $this->size; ?>)</span>
-        </a>
-    </div>
 
     <?php if (TL_MODE == 'FE'): ?>
-    <!-- hidden form -->
-    <div id="pw_download_popup_<?php echo $this->ceId; ?>" class="pw_download_popup pw_download_popup_invisible">
-        <div class="close_button"><?php echo $this->closeLayer; ?></div>
-        <h3><?php echo  $this->enterKey; ?></h3>
-        <form id="pw_form_<?php echo $this->ceId; ?>" class="pw_form" action="<?php echo $this->formAction; ?>" method="post" enctype="multipart/form-data">
-            <div class="pw_download_formbody">
-                <input type="hidden" name="FORM_SUBMIT" value="pw_download">
-                <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-                <input type="hidden" name="ceId" value="<?php echo $this->ceId; ?>">
-                <input type="password" name="password" id="ctrl_password" class="text mandatory" value="" required>
-                <div class="submit_container">
-                    <input type="submit" id="ctrl_submit_<?php echo $this->ceId; ?>" class="submit" value="senden">
-                </div>
-                <div class="filename_container">
-                    <p><?php echo $this->link; ?></p>
-                </div>
+    <!-- overlay -->
+    <div class="pw_download_overlay">
+        <div class="pw_download_container">
+            <div class="pw_download_content">
+                <button class="pw_download_overlay_close" title="<?= $this->closeLayer ?>">&times;</button>
+                <h3><?= $this->enterKey ?></h3>
+                    <div class="pw_download_formbody">
+                        <input type="password" name="code" class="input-code text" value="">
+                        <div class="submit_container">
+                            <input type="submit" class="submit" value="senden">
+                        </div>
+                        <div class="pw_download_message"></div>
+                    </div>
             </div>
-        </form>
+        </div>
     </div>
-    <!-- end hidden form -->
+    <!-- end overlay -->
     <?php endif; ?>
-
-
-
-    <?php if ($this->authError === true && TL_MODE == 'FE'): ?>
-    <div class="password_error"><?php echo $this->passwordErrorMessage; ?></div>
-    <?php endif; ?>
-
 </div>
 <!-- indexer::continue -->

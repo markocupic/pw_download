@@ -25,3 +25,4 @@ $GLOBALS['TL_LANG']['CTE']['pw_download']  = array('Passwort gesicherter Downloa
 $GLOBALS['TL_LANG']['MSC']['closeLayer'] = 'schliessen';
 $GLOBALS['TL_LANG']['MSC']['enterKey'] = 'Bitte geben Sie den Lizenzschl&uuml;ssel ein, um diese Datei herunterzuladen.';
 $GLOBALS['TL_LANG']['MSC']['wrongPassword'] = 'Der Key für die Datei: %s ist leider falsch.';
+$GLOBALS['TL_LANG']['MSC']['rightPassword'] = 'Der key ist korrekt. Der Download beginnt in Kürze.';

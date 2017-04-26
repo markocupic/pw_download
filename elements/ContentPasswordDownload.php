@@ -14,6 +14,7 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
+
 namespace MCupic;
 
 
@@ -28,137 +29,138 @@ namespace MCupic;
 class ContentPasswordDownload extends \ContentElement
 {
 
-       /**
-        * File object
-        * @var File
-        */
-       protected $objFile;
-
-       /**
-        * Template
-        * @var string
-        */
-       protected $strTemplate = 'ce_pw_download';
-
-       /**
-        * AuthStatus
-        * @var bool
-        */
-       protected $authError = null;
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'ce_pw_download';
 
 
-       /**
-        * Return if the file does not exist
-        * @return string
-        */
-       public function generate()
-       {
+    /**
+     * Return if the file does not exist
+     * @return string
+     */
+    public function generate()
+    {
 
-              if ($this->singleSRC == '')
-              {
-                     return '';
-              }
+        // Return if there is no file
+        if ($this->singleSRC == '')
+        {
+            return '';
+        }
 
-              $objFile = \FilesModel::findByUuid($this->singleSRC);
+        $objFile = \FilesModel::findByUuid($this->singleSRC);
 
-              if ($objFile === null)
-              {
-                     if (!\Validator::isUuid($this->singleSRC))
-                     {
-                            return '<p class="error">' . $GLOBALS['TL_LANG']['ERR']['version2format'] . '</p>';
-                     }
+        if ($objFile === null)
+        {
+            if (!\Validator::isUuid($this->singleSRC))
+            {
+                return '<p class="error">'.$GLOBALS['TL_LANG']['ERR']['version2format'].'</p>';
+            }
 
-                     return '';
-              }
+            return '';
+        }
 
-              if (!is_file(TL_ROOT . '/' . $objFile->path))
-              {
-                     return '';
-              }
+        $allowedDownload = trimsplit(',', strtolower(\Config::get('allowedDownload')));
 
+        // Return if the file type is not allowed
+        if (!in_array($objFile->extension, $allowedDownload))
+        {
+            return '';
+        }
 
-              $allowedDownload = trimsplit(',', strtolower($GLOBALS['TL_CONFIG']['allowedDownload']));
+        $file = \Input::get('file', true);
 
-              // Return if the file type is not allowed
-              if (!in_array($objFile->extension, $allowedDownload))
-              {
-                     return '';
-              }
+        // Send the file to the browser and do not send a 404 header (see #4632)
+        if ($file != '' && $file == $objFile->path)
+        {
+            \Controller::sendFileToBrowser($file);
+        }
 
-              $this->objFile = new \File($objFile->path, true);
-
-
-              // Check password
-              if ($this->Input->post('FORM_SUBMIT') == 'pw_download' && strlen($this->Input->post('ceId') && $this->Input->post('ceId') == $this->id))
-              {
-                     if (strlen($this->Input->post('password')))
-                     {
-                            if ($this->Input->post('password') == $this->pw_download_key)
-                            {
-                                   // send file to browser if password is ok
-                                   \Controller::sendFileToBrowser($this->objFile->path);
-                            }
-                            else
-                            {
-                                   // send error message if a wrong password was entered
-                                   $this->authError = true;
-                            }
-                     }
-                     else
-                     {
-                            if ($this->pw_download_key == "")
-                            {
-                                   // send file to browser if no key is defined
-                                   \Controller::sendFileToBrowser($this->objFile->path);
-                            }
-                            else
-                            {
-                                   // send error message if no password was entered
-                                   $this->authError = true;
-                            }
-                     }
-              }
-              return parent::generate();
-       }
+        $this->singleSRC = $objFile->path;
 
 
-       /**
-        * Generate the content element
-        */
-       protected function compile()
-       {
 
-              $objFile = $this->objFile;
+        if($this->id == \Input::get('file'))
+        {
+            if($_SESSION['PW_DOWNLOAD'][$this->id] == true)
+            {
+                \Controller::sendFileToBrowser($objFile->path);
+            }
+        }
 
-              if (!strlen($this->linkTitle))
-              {
-                     $this->linkTitle = $objFile->basename;
-              }
 
-              // store the file object in a template var, so you can easily access its properties
-              $this->Template->objFile = $objFile;
+        // Check password
+        if (\Environment::get('isAjaxRequest') && $this->Input->get('id') == $this->id && $this->Input->get('code'))
+        {
+            if ($this->Input->get('code') == $this->pw_download_key)
+            {
+                $_SESSION['PW_DOWNLOAD'][$this->id] = true;
+                // send file to browser if password is ok
+                // send error message if a wrong password was entered
+                $message = array('status' => 'success', 'message' => '<p class="success">' .  $GLOBALS['TL_LANG']['MSC']['rightPassword'] . '</p>');
+                echo json_encode($message);
+                exit();
+            }
+            else
+            {
+                $objFile = new \File($this->singleSRC, true);
+                if ($this->linkTitle == '')
+                {
+                    $this->linkTitle = specialchars($objFile->basename);
+                }
+                // send error message if a wrong password was entered
+                $message = array('status' => 'error', 'message' => '<p class="error">' . sprintf($GLOBALS['TL_LANG']['MSC']['wrongPassword'], $this->linkTitle) . '</p>');
+                echo json_encode($message);
+                exit();
+            }
+        }
+        return parent::generate();
+    }
 
-              // store the content element object in a template var, so you can easily access its properties
-              $this->Template->objCe = $this;
 
-              $this->Template->closeLayer = $GLOBALS['TL_LANG']['MSC']['closeLayer'];
-              $this->Template->enterKey = $GLOBALS['TL_LANG']['MSC']['enterKey'];
-              $this->Template->link = $this->linkTitle;
-              $this->Template->title = 'Download: ' . specialchars($this->linkTitle);
-              $this->Template->size = $this->getReadableSize($objFile->filesize, 1);
-              $this->Template->formAction = \Environment::get('request');
-              $this->Template->ceId = $this->id;
-              $this->Template->filesize = $this->getReadableSize($objFile->filesize, 1);
-              $this->Template->icon = TL_ASSETS_URL . 'assets/contao/images/' . $objFile->icon;
-              $this->Template->mime = $objFile->mime;
-              $this->Template->extension = $objFile->extension;
-              $this->Template->path = $objFile->dirname;
-              $this->Template->fileHref = TL_MODE == 'FE' ? 'javascript:fadeInForm(this,' . $this->id . ')' : 'javascript:void(0)';
+    /**
+     * Generate the content element
+     */
+    protected function compile()
+    {
 
-              if ($this->authError === true)
-              {
-                     $this->Template->authError = true;
-                     $this->Template->passwordErrorMessage = sprintf($GLOBALS['TL_LANG']['MSC']['wrongPassword'], $this->linkTitle);
-              }
-       }
+        $objFile = new \File($this->singleSRC, true);
+
+        if ($this->linkTitle == '')
+        {
+            $this->linkTitle = specialchars($objFile->basename);
+        }
+
+        $strHref = \Environment::get('request');
+
+        // Remove an existing file parameter (see #5683)
+        if (preg_match('/(&(amp;)?|\?)file=/', $strHref))
+        {
+            $strHref = preg_replace('/(&(amp;)?|\?)file=[^&]+/', '', $strHref);
+        }
+
+        $strHref .= ((\Config::get('disableAlias') || strpos($strHref, '?') !== false) ? '&amp;' : '?') . 'file=' . $this->id;
+
+        $this->Template->link = $this->linkTitle;
+        $this->Template->title = specialchars($this->titleText ?: sprintf($GLOBALS['TL_LANG']['MSC']['download'], $objFile->basename));
+        $this->Template->href = $strHref;
+        $this->Template->filesize = $this->getReadableSize($objFile->filesize, 1);
+        $this->Template->icon = \Image::getPath($objFile->icon);
+        $this->Template->mime = $objFile->mime;
+        $this->Template->extension = $objFile->extension;
+        $this->Template->path = $objFile->dirname;
+
+
+        $this->Template->closeLayer = $GLOBALS['TL_LANG']['MSC']['closeLayer'];
+        $this->Template->enterKey = $GLOBALS['TL_LANG']['MSC']['enterKey'];
+
+        $this->Template->auth = 'true';
+        if($_SESSION['PW_DOWNLOAD'][$this->id] == true)
+        {
+            $this->Template->auth = 'false';
+        }
+
+
+    }
 }

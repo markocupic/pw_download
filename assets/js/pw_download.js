@@ -1,104 +1,84 @@
 // javascript for contao content element pw_download
-window.addEvent('domready', function () {
-    // CursorPos-Object
-    CursorPos = {};
 
-    // fade out all forms
-    fadeOutForm();
+(function ($) {
+    "use strict";
 
-    // store all forms in the body node
-    $$('.pw_download_popup').each(function (el) {
-        document.getElementsByTagName('body')[0].adopt(el);
+    $(document).ready(function () {
+
+
+        // FadeIn overlay
+        $('.ce_pw_download a').click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var link = $(this);
+
+            // Define the vars
+            var href = $(link).attr('href');
+            var id = $(link).attr('data-id');
+            var overlay = $(link).closest('.ce_pw_download').find('.pw_download_overlay');
+            var elInput = $(overlay).find('.input-code');
+            var elSubmit = $(overlay).find('.submit');
+
+            // Reset
+            $('.pw_download_overlay').hide();
+            $('.pw_download_message').html('');
+
+
+            // Event fadeOut
+            $('.pw_download_overlay, .pw_download_overlay_close').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('.pw_download_message').html('');
+                $('.pw_download_overlay input.input-code').val('');
+
+                $('.pw_download_overlay').fadeOut();
+            });
+
+            $('.pw_download_content').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+
+
+            // If the user has authenticated already, send file to browser
+            if ($(link).attr('data-auth') == 'false') {
+                window.location.href = href;
+                return;
+            }else{
+                // If user has to authenticate...
+                $(overlay).fadeIn();
+            }
+
+
+
+            // XHR request
+            $(elSubmit).click(function (e) {
+                $('.pw_download_message').html('');
+                $.getJSON(window.location.href, {
+                    code: elInput.val(),
+                    id: id
+                })
+                    .done(function (data) {
+                        if (data.status == 'success') {
+                            $('.pw_download_message').html(data.message);
+                            window.setTimeout(function () {
+                                $('.pw_download_overlay').fadeOut();
+                                $('.pw_download_message').html('');
+                                $(link).attr('data-auth', 'false');
+
+                                // Start download
+                                window.location.href = href;
+                            }, 2000);
+                        } else {
+                            $('.pw_download_message').html(data.message);
+                        }
+                    });
+            });
+
+        });
     });
+})(jQuery);
 
-    // alert the error message if the password was wrong
-    $$('.password_error').each(function (el) {
-        alert(el.get('text'));
-    });
 
-    // add event for closing forms
-    $$('.pw_download_popup .pw_form').addEvent('submit', function (event) {
-        event.stopPropagation();
-        fadeOutForm();
-    });
-
-    // add event for closing forms
-    $$('.pw_download_popup .close_button').addEvent('click', function (event) {
-        event.stopPropagation();
-        fadeOutForm();
-    });
-
-    // store cursor position in CursorPos-Object
-    $$('.pw_download_item a').addEvent('click', function (event) {
-        CursorPos.x = event.page.x;
-        CursorPos.y = event.page.y;
-    });
-
-});
-
-function fadeInForm(elLink, ceId) {
-    // close all opened forms
-    $$('.pw_download_popup').each(function (el) {
-        el.fade('out');
-    });
-
-    var formLayer = document.id('pw_download_popup_' + ceId);
-    // set opacity to 0
-    formLayer.setStyle('opacity', 0);
-
-    // add & remove Class
-    formLayer.removeClass('pw_download_popup_invisible');
-    formLayer.addClass('pw_download_popup_visible');
-    //set position
-
-    var paddingX = formLayer.getStyle('padding-left').toInt() + formLayer.getStyle('padding-right').toInt();
-    formLayer.setStyle('max-width', viewportWidth() - paddingX + 'px');
-    var viewportXMiddle = viewportWidth() / 2;
-    formLayer.setStyle('left', (viewportXMiddle - (formLayer.offsetWidth / 2)).toInt());
-    formLayer.setStyle('top', (CursorPos.y - formLayer.offsetHeight / 2).toInt());
-
-    // fade in
-    var fade = (function () {
-        formLayer.fade('in')
-    }.delay(500)); 
-}
-
-function fadeOutForm() {
-    $$('.pw_download_popup').each(function (formLayer) {
-        formLayer.fade('out');
-        formLayer.addClass('pw_download_popup_invisible');
-        formLayer.removeClass('pw_download_popup_visible');
-    });
-}
-
-function viewportWidth() {
-    var viewportwidth;
-
-    if (typeof window.innerWidth != 'undefined') {
-        viewportwidth = window.innerWidth;
-    }
-
-    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
-        viewportwidth = document.documentElement.clientWidth;
-    }
-    else {
-        viewportwidth = document.getElementsByTagName('body')[0].clientWidth;
-    }
-    return viewportwidth;
-}
-
-function viewportHeight() {
-    var viewportheight;
-
-    if (typeof window.innerWidth != 'undefined') {
-        viewportheight = window.innerHeight;
-    }
-
-    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
-        viewportheight = document.documentElement.clientHeight;
-    }
-    else {
-        viewportheight = document.getElementsByTagName('body')[0].clientHeight;
-    }
-    return viewportheight;
-}
