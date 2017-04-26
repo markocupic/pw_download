@@ -17,13 +17,9 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['pw_download'] = '{type_legend},typ
 
 // add field
 $GLOBALS['TL_DCA']['tl_content']['fields']['pw_download_key'] = array(
-       'label'       => &$GLOBALS['TL_LANG']['tl_content']['pw_download_key'],
-       'exclude'     => false,
-       'inputType'   => 'text',
-       'eval' => array(
-              'mandatory' => true,
-              'maxlength' => 255,
-              'allowHtml' => false
-       ),
-       'sql'         => 'text NULL'
+    'label'         => &$GLOBALS['TL_LANG']['tl_content']['pw_download_key'],
+    'exclude'       => false,
+    'inputType'     => 'text',
+    'eval'          => array('mandatory' => true, 'maxlength' => 255, 'allowHtml' => false),
+    'sql'           => 'text NULL'
 );

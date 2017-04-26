@@ -55,7 +55,7 @@ class ContentPasswordDownload extends \ContentElement
         {
             if (!\Validator::isUuid($this->singleSRC))
             {
-                return '<p class="error">'.$GLOBALS['TL_LANG']['ERR']['version2format'].'</p>';
+                return '<p class="error">' . $GLOBALS['TL_LANG']['ERR']['version2format'] . '</p>';
             }
 
             return '';
@@ -80,10 +80,9 @@ class ContentPasswordDownload extends \ContentElement
         $this->singleSRC = $objFile->path;
 
 
-
-        if($this->id == \Input::get('file'))
+        if ($this->id == \Input::get('file'))
         {
-            if($_SESSION['PW_DOWNLOAD'][$this->id] == true)
+            if ($_SESSION['PW_DOWNLOAD'][$this->id] == true)
             {
                 \Controller::sendFileToBrowser($objFile->path);
             }
@@ -98,7 +97,7 @@ class ContentPasswordDownload extends \ContentElement
                 $_SESSION['PW_DOWNLOAD'][$this->id] = true;
                 // send file to browser if password is ok
                 // send error message if a wrong password was entered
-                $message = array('status' => 'success', 'message' => '<p class="success">' .  $GLOBALS['TL_LANG']['MSC']['rightPassword'] . '</p>');
+                $message = array('status' => 'success', 'message' => '<p class="success">' . $GLOBALS['TL_LANG']['MSC']['rightPassword'] . '</p>');
                 echo json_encode($message);
                 exit();
             }
@@ -156,7 +155,7 @@ class ContentPasswordDownload extends \ContentElement
         $this->Template->enterKey = $GLOBALS['TL_LANG']['MSC']['enterKey'];
 
         $this->Template->auth = 'true';
-        if($_SESSION['PW_DOWNLOAD'][$this->id] == true)
+        if ($_SESSION['PW_DOWNLOAD'][$this->id] == true)
         {
             $this->Template->auth = 'false';
         }
