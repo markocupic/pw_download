@@ -7,6 +7,7 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
+    z-index:99997;
 }
 
 .pw_download_container {
@@ -19,6 +20,7 @@
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    z-index:99998;
 }
 
 .pw_download_content {
@@ -53,4 +55,5 @@
     background: none;
     font-weight: 700;
     cursor: pointer;
+    z-index:99999;
 }
