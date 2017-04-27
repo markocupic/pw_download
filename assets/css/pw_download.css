@@ -116,6 +116,7 @@
     font-size: 1rem;
     padding: 0.7rem 0.8rem;
     border-radius: 0;
+    line-height:1;
 }
 
 .pwd-modal .pwd-modal-footer button:hover {
@@ -129,14 +130,14 @@
     transition: all 0.5s time;
 }
 
-.pwd-modal .pwd-modal-footer button.submit {
+.pwd-modal .pwd-modal-footer button.pwd-submit-button {
     background-color: #1E90FF;
     border: 1px solid #1E90FF;
     color: #fff;
     border-radius: 0;
 }
 
-.pwd-modal .pwd-modal-footer button.submit:hover {
+.pwd-modal .pwd-modal-footer button.pwd-submit-button:hover {
     background-color: #0169CE;
     border: 1px solid #0169CE;
 }
