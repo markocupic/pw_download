@@ -17,6 +17,7 @@
         <div class="pw_download_container">
             <div class="pw_download_content">
                 <button class="pw_download_overlay_close" title="<?= $this->closeLayer ?>">&times;</button>
+                <div class="pw_download_content_inside">
                 <h3><?= $this->enterKey ?></h3>
                     <div class="pw_download_formbody">
                         <input type="password" name="code" class="input-code text" value="">
@@ -25,6 +26,7 @@
                         </div>
                         <div class="pw_download_message"></div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

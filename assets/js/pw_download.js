@@ -1,84 +1,104 @@
-// javascript for contao content element pw_download
-
+/**
+ * PwDownload
+ * @author Marko Cupic
+ */
 (function ($) {
     "use strict";
 
     $(document).ready(function () {
 
+        var PwDownload = {
+            link: null,
+            href: null,
+            id: null,
+            overlay: null,
+            elInput: null,
+            elSubmit: null,
+            elMessage: null,
 
-        // FadeIn overlay
-        $('.ce_pw_download a').click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+            resetForm: function () {
+                $(PwDownload.elMessage).html('');
+                $(PwDownload.elInput).val('');
 
-            var link = $(this);
+            },
 
-            // Define the vars
-            var href = $(link).attr('href');
-            var id = $(link).attr('data-id');
-            var overlay = $(link).closest('.ce_pw_download').find('.pw_download_overlay');
-            var elInput = $(overlay).find('.input-code');
-            var elSubmit = $(overlay).find('.submit');
+            hideForm: function () {
+                $(PwDownload.overlay).fadeOut();
+            },
 
-            // Reset
-            $('.pw_download_overlay').hide();
-            $('.pw_download_message').html('');
+            downloadFile: function () {
+                window.location.href = PwDownload.href;
+            },
+            initialize: function () {
+                // FadeIn overlay
+                // FadeIn overlay
+                $('.ce_pw_download a').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
+                    // Define the vars
+                    PwDownload.link = $(this);
+                    PwDownload.href = $(PwDownload.link).attr('href');
+                    PwDownload.id = $(PwDownload.link).attr('data-id');
+                    PwDownload.overlay = $(PwDownload.link).closest('.ce_pw_download').find('.pw_download_overlay');
+                    PwDownload.elInput = $(PwDownload.overlay).find('.input-code');
+                    PwDownload.elSubmit = $(PwDownload.overlay).find('.submit');
+                    PwDownload.elMessage = $('.pw_download_message');
 
-            // Event fadeOut
-            $('.pw_download_overlay, .pw_download_overlay_close').click(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                $('.pw_download_message').html('');
-                $('.pw_download_overlay input.input-code').val('');
-
-                $('.pw_download_overlay').fadeOut();
-            });
-
-            $('.pw_download_content').click(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-
-
-
-            // If the user has authenticated already, send file to browser
-            if ($(link).attr('data-auth') == 'false') {
-                window.location.href = href;
-                return;
-            }else{
-                // If user has to authenticate...
-                $(overlay).fadeIn();
-            }
+                    // Reset
+                    PwDownload.resetForm();
+                    PwDownload.hideForm();
 
 
-
-            // XHR request
-            $(elSubmit).click(function (e) {
-                $('.pw_download_message').html('');
-                $.getJSON(window.location.href, {
-                    code: elInput.val(),
-                    id: id
-                })
-                    .done(function (data) {
-                        if (data.status == 'success') {
-                            $('.pw_download_message').html(data.message);
-                            window.setTimeout(function () {
-                                $('.pw_download_overlay').fadeOut();
-                                $('.pw_download_message').html('');
-                                $(link).attr('data-auth', 'false');
-
-                                // Start download
-                                window.location.href = href;
-                            }, 2000);
-                        } else {
-                            $('.pw_download_message').html(data.message);
-                        }
+                    // Event fadeOut
+                    $('.pw_download_overlay, .pw_download_overlay_close').click(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        PwDownload.resetForm();
+                        PwDownload.hideForm();
                     });
-            });
 
-        });
+                    $('.pw_download_content').click(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+
+                    // If the user has authenticated already, send file to browser
+                    if ($(PwDownload.link).attr('data-auth') == 'false') {
+                        window.location.href = PwDownload.href;
+                        return;
+                    } else {
+                        // If user has to authenticate...
+                        $(PwDownload.overlay).fadeIn();
+                    }
+
+                    // XHR request
+                    $(PwDownload.elSubmit).click(function (e) {
+                        $('.pw_download_message').html('');
+                        $.getJSON(window.location.href, {
+                            code: PwDownload.elInput.val(),
+                            id: PwDownload.id
+                        }).done(function (data) {
+                            if (data.status == 'success') {
+                                $('.pw_download_message').html(data.message);
+                                window.setTimeout(function () {
+                                    PwDownload.hideForm();
+                                    PwDownload.resetForm();
+                                    $(PwDownload.link).attr('data-auth', 'false');
+
+                                    // Start download
+                                    PwDownload.downloadFile();
+                                }, 2000);
+                            } else {
+                                $('.pw_download_message').html(data.message);
+                            }
+                        });
+                    });
+                });
+            }
+        };
+
+        // Initialize
+        PwDownload.initialize();
     });
 })(jQuery);
-
-
