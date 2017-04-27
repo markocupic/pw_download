@@ -11,7 +11,7 @@
             link: null,
             href: null,
             id: null,
-            overlay: null,
+            backdrop: null,
             elInput: null,
             elSubmit: null,
             elMessage: null,
@@ -23,7 +23,7 @@
             },
 
             hideForm: function () {
-                $(PwDownload.overlay).fadeOut();
+                $(PwDownload.backdrop).fadeOut();
             },
 
             downloadFile: function () {
@@ -40,10 +40,10 @@
                     PwDownload.link = $(this);
                     PwDownload.href = $(PwDownload.link).attr('href');
                     PwDownload.id = $(PwDownload.link).attr('data-id');
-                    PwDownload.overlay = $(PwDownload.link).closest('.ce_pw_download').find('.pw_download_overlay');
-                    PwDownload.elInput = $(PwDownload.overlay).find('.input-code');
-                    PwDownload.elSubmit = $(PwDownload.overlay).find('.submit');
-                    PwDownload.elMessage = $('.pw_download_message');
+                    PwDownload.backdrop = $(PwDownload.link).closest('.ce_pw_download').find('.pwd-modal');
+                    PwDownload.elInput = $(PwDownload.backdrop).find('.pwd-input-code');
+                    PwDownload.elSubmit = $(PwDownload.backdrop).find('.pwd-modal-footer .submit');
+                    PwDownload.elMessage = $('.pwd-response-message');
 
                     // Reset
                     PwDownload.resetForm();
@@ -51,14 +51,14 @@
 
 
                     // Event fadeOut
-                    $('.pw_download_overlay, .pw_download_overlay_close').click(function (e) {
+                    $('*[data-dismiss="pwd-modal"]').click(function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         PwDownload.resetForm();
                         PwDownload.hideForm();
                     });
 
-                    $('.pw_download_content').click(function (e) {
+                    $('.pwd-modal-dialog').click(function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                     });
@@ -69,18 +69,18 @@
                         return;
                     } else {
                         // If user has to authenticate...
-                        $(PwDownload.overlay).fadeIn();
+                        $(PwDownload.backdrop).fadeIn();
                     }
 
                     // XHR request
                     $(PwDownload.elSubmit).click(function (e) {
-                        $('.pw_download_message').html('');
+                        $(PwDownload.elMessage).html('');
                         $.getJSON(window.location.href, {
                             code: PwDownload.elInput.val(),
                             id: PwDownload.id
                         }).done(function (data) {
                             if (data.status == 'success') {
-                                $('.pw_download_message').html(data.message);
+                                $(PwDownload.elMessage).html(data.message);
                                 window.setTimeout(function () {
                                     PwDownload.hideForm();
                                     PwDownload.resetForm();
@@ -90,7 +90,7 @@
                                     PwDownload.downloadFile();
                                 }, 2000);
                             } else {
-                                $('.pw_download_message').html(data.message);
+                                $(PwDownload.elMessage).html(data.message);
                             }
                         });
                     });

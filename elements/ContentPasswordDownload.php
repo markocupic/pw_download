@@ -152,6 +152,7 @@ class ContentPasswordDownload extends \ContentElement
 
 
         $this->Template->closeLayer = $GLOBALS['TL_LANG']['MSC']['closeLayer'];
+        $this->Template->fileIsProtected = $GLOBALS['TL_LANG']['MSC']['fileIsProtected'];
         $this->Template->enterKey = $GLOBALS['TL_LANG']['MSC']['enterKey'];
 
         $this->Template->auth = 'true';

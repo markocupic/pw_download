@@ -15,7 +15,7 @@
 /**
  * Content elements
  */
-$GLOBALS['TL_LANG']['CTE']['pw_download']  = array('Passwort gesicherter Download', 'Erstellt einen Link zu einer Passwortgesch&uuml;tzten Datei.');
+$GLOBALS['TL_LANG']['CTE']['pw_download']  = array('Passwort gesicherter Download', 'Erstellt einen Link zu einer Passwortgeschützten Datei.');
 
 
 
@@ -23,6 +23,8 @@ $GLOBALS['TL_LANG']['CTE']['pw_download']  = array('Passwort gesicherter Downloa
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['MSC']['closeLayer'] = 'schliessen';
-$GLOBALS['TL_LANG']['MSC']['enterKey'] = 'Bitte geben Sie den Lizenzschl&uuml;ssel ein, um diese Datei herunterzuladen.';
-$GLOBALS['TL_LANG']['MSC']['wrongPassword'] = 'Der Key für die Datei: %s ist leider falsch.';
-$GLOBALS['TL_LANG']['MSC']['rightPassword'] = 'Der key ist korrekt. Der Download beginnt in Kürze.';
+$GLOBALS['TL_LANG']['MSC']['fileIsProtected'] = 'Diese Datei ist passwortgeschützt.';
+$GLOBALS['TL_LANG']['MSC']['enterKey'] = 'Bitte geben Sie den Key ein, um die Datei herunterzuladen.';
+
+$GLOBALS['TL_LANG']['MSC']['wrongPassword'] = 'Ihr Key für die Datei: %s ist leider ungültig. Probieren Sie es erneut.';
+$GLOBALS['TL_LANG']['MSC']['rightPassword'] = 'Ihre Eingabe war korrekt. Der Download beginnt in Kürze.';
