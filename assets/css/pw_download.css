@@ -17,38 +17,49 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
-    z-index:1040;
+    z-index: 1040;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .pwd-modal-dialog {
     width: auto;
-    max-width: 450px;
-    margin: 60px auto 30px auto;
-    position:relative;
+    max-width: 526px;
+    margin: 60px 10px 30px 10px;
+    position: relative;
     padding: 0;
     background: #fff;
     color: #000;
     font-size: 1rem;
 }
 
-.pwd-modal-content{
+@media (min-width: 576px) {
+    .pwd-modal-dialog {
+        margin: 60px auto 30px auto;
+    }
+}
+
+.pwd-modal-content {
     background-color: #fff;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-    position:relative;
-    font-family:  -apple-system, BlinkMacSystemFont,
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
 }
-.pwd-modal-content > [class^="pwd-modal"]{
+
+.pwd-modal-content > [class^="pwd-modal"] {
     padding: 16px;
 }
-.pwd-modal-content > .pwd-modal-body{
+
+.pwd-modal-content > .pwd-modal-body {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     padding-bottom: 3rem;
 }
+
 .pwd-modal-close {
     position: absolute;
     top: -1.75rem;
@@ -61,7 +72,7 @@
     background: none;
     font-weight: 700;
     cursor: pointer;
-    z-index:1050;
+    z-index: 1050;
 }
 
 .pwd-modal-close:hover {
@@ -71,7 +82,7 @@
 .pwd-modal .pwd-modal-title {
     font-size: 1.25rem;
     font-weight: 400;
-    margin:0;
+    margin: 0;
     margin-bottom: 1rem;
     line-height: 2rem;
 }
@@ -93,13 +104,13 @@
     color: red;
 }
 
-.pwd-modal .pwd-modal-footer{
+.pwd-modal .pwd-modal-footer {
     text-align: right;
 }
 
 .pwd-modal .pwd-modal-footer button {
     margin: 0.5rem 0 0.5rem 1rem;
-    border:1px solid #999;
+    border: 1px solid #999;
     color: #333;
     background-color: #fff;
     font-size: 1rem;
@@ -109,7 +120,7 @@
 
 .pwd-modal .pwd-modal-footer button:hover {
     background-color: #bbb;
-    border:1px solid #333;
+    border: 1px solid #333;
     color: #000;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s time;
@@ -120,13 +131,13 @@
 
 .pwd-modal .pwd-modal-footer button.submit {
     background-color: #1E90FF;
-    border:1px solid #1E90FF;
+    border: 1px solid #1E90FF;
     color: #fff;
     border-radius: 0;
 }
 
 .pwd-modal .pwd-modal-footer button.submit:hover {
     background-color: #0169CE;
-    border:1px solid #0169CE;
+    border: 1px solid #0169CE;
 }
 
