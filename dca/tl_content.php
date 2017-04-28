@@ -13,7 +13,7 @@
 
 
 // add palette
-$GLOBALS['TL_DCA']['tl_content']['palettes']['pw_download'] = '{type_legend},type,headline;{source_legend},singleSRC,pw_download_key;{dwnconfig_legend},linkTitle;{protected_legend:hide},protected;{expert_legend:hide},guests,invisible,cssID,space';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['pw_download'] = '{type_legend},type,headline;{source_legend},singleSRC,pw_download_key;{dwnconfig_legend},linkTitle,titleText;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
 
 // add field
 $GLOBALS['TL_DCA']['tl_content']['fields']['pw_download_key'] = array(

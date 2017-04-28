@@ -29,8 +29,8 @@
                 <div class="pwd-response-message"></div>
             </div>
             <div class="pwd-modal-footer">
-                <button type="button" class="close" data-dismiss="pwd-modal">Schliessen</button>
-                <button type="button" class="submit">Senden</button>
+                <button type="button" class="pwd-close-button" data-dismiss="pwd-modal">Schliessen</button>
+                <button type="button" class="pwd-submit-button">Senden</button>
             </div>
         </div>
     </div>
